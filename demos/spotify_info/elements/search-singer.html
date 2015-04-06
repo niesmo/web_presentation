@@ -1,0 +1,50 @@
+<!-- linking polymer element -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html" />
+<link rel="import" href="../../../bower_components/core-ajax/core-ajax.html" />
+<link rel="import" href="../../../bower_components/core-signals/core-signals.html" />
+
+<polymer-element name="search-singer">
+	<template>
+		<style>
+			paper-button{
+				background: #2980b9;
+				color:white;
+				text-transform: capitalize;
+			}
+		</style>
+		<paper-input id="singerSearchInput" label="Singer" value="{{query}}"></paper-input>
+		<paper-button on-click="{{search}}" raised>Search</paper-button>
+		<core-ajax 
+			id="singerSearchAjax"
+		    url="https://api.spotify.com/v1/search?q=artist:{{query}}&type=artist"
+		    handleAs="json"
+		    on-core-response="{{handleResponse}}">
+		</core-ajax>
+
+		<!-- Core Signals Element to catch the when user clicks on a recent search -->
+		<core-signals on-core-signal-recent-clicked="{{recentClicked}}"></core-signals>
+	</template>
+	<script>
+		Polymer({
+			query : "",
+			search: function(){
+				this.$.singerSearchAjax.go();
+				this.$.singerSearchInput.value = "";
+				this.$.singerSearchInput.focus();
+			},
+			handleResponse:function(){
+				//getting the response
+				resp = this.$.singerSearchAjax.response;
+
+				//sending the signal other elements
+				this.fire("core-signal", {name:"singer-found", data:resp});
+			},
+			recentClicked: function(e, detail){
+				this.$.singerSearchInput.value = detail ;
+				this.query = detail;
+				this.$.singerSearchAjax.go();
+			}
+		});
+	</script>
+</polymer-element>

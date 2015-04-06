@@ -1,0 +1,86 @@
+<!-- linking polymer and other elements -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../../bower_components/core-image/core-image.html" />
+<link rel="import" href="../../../bower_components/core-signals/core-signals.html" />
+<link rel="import" href="../../../bower_components/core-ajax/core-ajax.html" />
+
+<polymer-element name="singer-info">
+	<template>
+		<style>
+			div{
+				width: 500px;
+				background: white;
+			}
+			div#mainContainer{
+				border: 1px solid gray;
+				padding:10px;
+			}
+			dt, dd{
+				display: inline-block;
+			}
+			dd{
+				width: 200px;
+				margin:0;
+			}
+			dt{
+				width: 150px;
+				margin-left: 125px;
+			}
+		</style>
+		<div vertical layout id="mainContainer">
+			<div horizontal center-justified layout>
+				<img src="{{info.image}}"  alt="singer" width="200" /> 
+				<!-- <core-image position="cover" width="200" height="200" src="{{info.image}}"></core-image> -->
+			</div>
+			<div horizontal center-justified layout>
+				<dl>
+					<dt>Name</dt><dd>{{info.name}}</dd>
+					<dt>Followers Count</dt><dd>{{info.followersCount}}</dd>
+					<dt>Top Tracks</dt>
+					<dd>
+						<ul>
+							<template repeat="{{song in info.topTracks}}">
+								<li>{{song.name}}</li>
+							</template>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+		</div>
+
+		<!-- Ajax to get the top tracks -->
+		<core-ajax
+			id="singerSearchAjax"
+		    url="https://api.spotify.com/v1/artists/{{info.id}}/top-tracks?country=US"
+		    handleAs="json"
+		    on-core-response="{{handleResponse}}">
+		</core-ajax>
+
+		<!-- Core Signals Element to catch the singer found event when a successful search occurs -->
+		<core-signals on-core-signal-singer-found="{{singerFound}}"></core-signals>
+	</template>
+	<script>
+		Polymer({
+			info: {
+				id:"",
+				name :"",
+				followersCount : "",
+				image:"http://www.wallstreetotc.com/wp-content/uploads/2014/10/facebook-anonymous-app.jpg",
+				topTracks : [],
+			},
+
+			singerFound:function(e, detail, sender){
+				this.info.id = detail.artists.items[0].id;
+				this.info.name = detail.artists.items[0].name;
+				this.info.followersCount = detail.artists.items[0].followers.total;
+				this.info.image = detail.artists.items[0].images[0].url;
+
+				//making the ajax call to get the latest top tracks of the singer
+				this.$.singerSearchAjax.go();
+			},
+			handleResponse: function(e, detail){
+				this.info.topTracks = detail.response.tracks;
+			}
+		});
+	</script>
+</polymer-element>

@@ -1,0 +1,53 @@
+<!-- linking polymer and other elements -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../../bower_components/core-menu/core-menu.html" />
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html" />
+<link rel="import" href="../../../bower_components/core-signals/core-signals.html" />
+
+<polymer-element name="recent-search">
+	<template>
+		<style>
+			ul{
+				list-style-type: none;
+				margin:0;
+				padding:20px 0 0 20px;
+			}
+			li{
+				height: 50px;
+				font-family: arial;
+				letter-spacing: 3px;
+			}
+			paper-checkbox{
+				padding-right: 20px;
+			}
+			core-menu{
+				margin:0;
+			}
+		</style>
+		<core-menu id="recentSearches" on-core-select="{{recentSelected}}">
+			<!-- For loop for all the singers in the singers list -->
+			<template repeat="{{item in recentItem}}">
+				<paper-item value="{{item}}">{{item}}</paper-item>	
+			</template>
+		</core-menu>
+
+		<!-- Core Signals Element to catch the singer found event when a successful search occurs -->
+		<core-signals on-core-signal-singer-found="{{singerFound}}"></core-signals>
+	</template>
+	<script>
+		Polymer({
+			recentItem : [],
+			singerFound: function(e, detail, sender){
+				this.recentItem.unshift(detail.artists.items[0].name);
+				if(this.recentItem.length > 5){
+					this.recentItem.pop();
+				}
+				this.$.recentSearches.selected = -1;
+			},
+			recentSelected: function(e, detail){			
+				// console.log(detail.item.textContent);
+				//this.fire("core-signal", {name:"recent-clicked", data:detail.item.textContent});
+			}
+		});
+	</script>
+</polymer-element>

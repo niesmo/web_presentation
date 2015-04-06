@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Artist Info</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes" />
+
+
+
+	<!-- linking files -->
+	<script src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+	
+	<!-- linking elements -->
+	<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+	<link rel="import" href="elements/search-singer.html" />
+	<link rel="import" href="elements/recent-search.html" />
+	<link rel="import" href="elements/singer-info.html" />
+
+	<style>
+		recent-search{
+			width: 200px;
+		}
+		singer-info, recent-search{
+			margin-top:10px;
+		}
+	</style>
+
+</head>
+<body unresolved>
+	<h2>Artist Info Site -- using Spotify Public API</h2>
+	<!-- The search bar for user to search for a singer -->
+	<div horizontal center-justified layout>
+		<search-singer></search-singer>
+	</div>
+
+	<!-- The recent searches done by the user -->
+	<div horizontal center-justified layout>
+		<recent-search></recent-search>
+		<singer-info></singer-info>
+	</div>
+
+	
+</body>
+</html>
