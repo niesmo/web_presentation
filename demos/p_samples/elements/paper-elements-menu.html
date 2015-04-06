@@ -1,0 +1,25 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+
+
+<polymer-element name="paper-elements-menu" noscript>
+	<template>
+	    <paper-menu-button>
+		<paper-icon-button icon="menu"></paper-icon-button>
+		<paper-dropdown class="dropdown">
+		  <core-menu class="menu">
+		    	<paper-item>Nima</paper-item>
+		    	<paper-item>Amber</paper-item>
+		    	<paper-item>Max</paper-item>
+		    	<paper-item>Steven</paper-item>
+		    	<paper-item>Brian</paper-item>
+		  </core-menu>
+		</paper-dropdown>
+	    </paper-menu-button>
+	</template>
+</polymer-element>

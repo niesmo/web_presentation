@@ -1,0 +1,11 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+
+<polymer-element name="paper-elements-toast" noscript>
+	<template>
+		<paper-button raised onclick="document.querySelector('#toast1').show()">Secret Message	</paper-button>
+		<paper-toast id="toast1" role="alert" text="Paper elements are the best!"></paper-toast>
+	</template>
+</polymer-element>
